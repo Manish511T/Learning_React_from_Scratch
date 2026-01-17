@@ -1,49 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom/client"
 
+// React Element(core)
+// React.createElemet => ReactElement(JS object) => HTML Element(render)
+const heading = React.createElement("h1", {id:"heading"}, "Hello World");
+console.log(heading);
 
-/**
- * <div id="parent">
- *    <div id="child">
- *         <h1>I'm h1 tag</h1>
- *         <h2>I'm h2 tag</h2>
- *    </div>
- * </div>
- */
+// JSX - HTML-like or XML-like syntax
+// JSX (transpiled before it reaches the JS) -> PARCEL ->  Babel
+//JSX =>Babel transpiles to => React.createElemet => ReactElement(JS object) => HTML Element(render)
+const jsxHeading = <h1 className="head" >Namaste React using JSX</h1>
 
-const parent = React.createElement("div", { id: "parent" },
-    [
-        React.createElement("div", { id: "child" },
-            [React.createElement("h1", {}, "Hello "), React.createElement("h2", {}, "I'm h2 tag")]
-        ),
-        React.createElement("div", { id: "child" },
-            [React.createElement("h1", {}, "I'm h1 tag"), React.createElement("h2", {}, "I'm h2 tag")]
-        )
-    ]
-)
+// () for more than one line of JSX
+// const jsxHeading = (<h1 
+// className="head" >
+// Namaste React using JSX</h1>)
 
-// above code is hard to read
-// that's why JSX introduced
+console.log(jsxHeading);
 
-
-// const heading = React.createElement(
-//     "h1",
-//     {id:"heading"},
-//     "Hello React js"
-// );
-
-// console.log(heading); //object
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(parent); // render method convert object into html and put into browser
 
-
-
-
-
-/*
-
-Note: is react library or jsx
-It can work independently in a small portion of your app as well, it doesn't a full fledged framework.
-
-*/
+root.render(jsxHeading);
