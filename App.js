@@ -1,19 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-const Title = ()=>(
-    <h1 className="heading">Namaste React using JSX</h1>
+const elem = <span className="elem">Component Composition -</span>
+
+// react element || title is a normal js variable
+const title = (
+    <h1 className="heading">{elem} Namaste React using JSX</h1>
 )
 
-// React Funtional Componenet
+const number = 100;
+
 const HeadingComponent = () => (
     <div>
-      <Title />
-      <h1 className="heading">Hello React Funtional Component</h1>
+        {title}
+      <h1 className="headingComponent">Hello React Funtional Component</h1>
     </div>
 
 );
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-root.render(<HeadingComponent />);
+root.render(<HeadingComponent />); // same <HeadingComponent> <HeadingComponent /> 

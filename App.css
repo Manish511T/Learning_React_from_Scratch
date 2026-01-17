@@ -1,3 +1,11 @@
 .heading{
     color: green;
 }
+
+.elem{
+    color: blue;
+}
+
+.headingComponent{
+    color: yellow;
+}
