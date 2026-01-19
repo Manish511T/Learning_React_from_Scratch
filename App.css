@@ -52,8 +52,10 @@
     cursor: pointer;
 }
 
-.search{
+.filter-btn{
+    margin: 10px;
     padding: 10px;
+    cursor: pointer;
 }
 
 .res-logo{

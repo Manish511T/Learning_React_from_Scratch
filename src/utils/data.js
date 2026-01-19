@@ -12,7 +12,7 @@ const resList = [
     id: 2,
     resName: "Burger King",
     costForTwo: 35000,
-    rating: "4.0",
+    rating: "3.0",
     cuisines: ["Burgers", "Fast Food"],
     deliveryTime: "25 mins",
     img: "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/v1663148422/bk8.jpg",
