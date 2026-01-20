@@ -1,13 +1,31 @@
+const CDN_URL =
+  "https://media-assets.swiggy.com/swiggy/image/upload/f_auto,q_auto,w_508,h_320,c_fill/";
 
 const RestaurantCard = ({ resData }) => {
+  const {
+    name,
+    cuisines,
+    rating,
+    costForTwo,
+    deliveryTime,
+    imageId,
+  } = resData;
+  console.log("IMAGE ID 👉", imageId);
+
+
   return (
     <div className="res-card" style={{ backgroundColor: "#f0f0f0" }}>
-      <img className="res-logo" alt="res-logo" src={resData.img} />
-      <h3>{resData.resName}</h3>
-      <h4>{resData.cuisines.join(", ")}</h4>
-      <h4>{resData.rating}</h4>
-      <h4>Rs. {resData.costForTwo / 100} FOR TWO</h4>
-      <h4>{resData.deliveryTime}</h4>
+      <img
+        className="res-logo"
+        alt={name}
+        src={CDN_URL + imageId}
+      />
+
+      <h3>{name}</h3>
+      <h4>{cuisines.join(", ")}</h4>
+      <h4>{rating} ⭐</h4>
+      <h4>{costForTwo}</h4>
+      <h4>{deliveryTime}</h4>
     </div>
   );
 };
