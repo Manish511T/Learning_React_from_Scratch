@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
+import Shimmer from "./Shimmer";
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
@@ -45,6 +46,10 @@ const Body = () => {
       console.error("Failed to fetch data:", error);
     }
   };
+
+  if(listOfRestaurants.length === 0){
+    return <Shimmer/>
+  }
 
   return (
     <div className="body">
