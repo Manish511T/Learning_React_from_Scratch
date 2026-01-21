@@ -10,7 +10,7 @@ const RestaurantCard = ({ resData }) => {
     deliveryTime,
     imageId,
   } = resData;
-  console.log("IMAGE ID 👉", imageId);
+  // console.log("IMAGE ID 👉", imageId);
 
 
   return (
