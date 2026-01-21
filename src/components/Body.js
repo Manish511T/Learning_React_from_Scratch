@@ -47,11 +47,12 @@ const Body = () => {
     }
   };
 
-  if(listOfRestaurants.length === 0){
-    return <Shimmer/>
-  }
+//   if(listOfRestaurants.length === 0){
+//     return <Shimmer/>
+//   }
 
-  return (
+// ternary oprator
+  return listOfRestaurants.length === 0 ? <Shimmer/> : (
     <div className="body">
       {/* FILTER SECTION */}
       <div className="filter">
