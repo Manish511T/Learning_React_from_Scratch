@@ -3,6 +3,7 @@ const CDN_URL =
 
 const RestaurantCard = ({ resData }) => {
   const {
+    // id,
     name,
     cuisines,
     rating,
@@ -20,7 +21,7 @@ const RestaurantCard = ({ resData }) => {
         alt={name}
         src={CDN_URL + imageId}
       />
-
+      {/* <p>{id}</p> */}
       <h3>{name}</h3>
       <h4>{cuisines.join(", ")}</h4>
       <h4>{rating} ⭐</h4>
