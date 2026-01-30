@@ -8,6 +8,8 @@ const User = ({name})=>{
 
     // },[])
 
+
+
     return(
         <div className="user-card">
             <h1>Count = {count}</h1>
