@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import RestaurantCard, {withPromotedLabel} from "./RestaurantCard";
+import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
@@ -8,33 +8,27 @@ const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
-  
-  const RestaurantCardPromoted = withPromotedLabel(RestaurantCard)
+
+  const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  
-
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.5456897&lng=77.3882686&collection=83639&tags=layout_CCS_Biryani&sortBy=&filters=&type=rcv2&offset=0&page_type=null",
+        "https://namastedev.com/api/v1/listRestaurants",
       );
       const json = await response.json();
-     
 
-      // 🔥 STEP 1: Extract only restaurant cards
-      const restaurantCards = json?.data?.cards?.filter(
-        (card) =>
-          card?.card?.card?.["@type"] ===
-          "type.googleapis.com/swiggy.presentation.food.v2.Restaurant",
-      );
+      const rawRestaurants =
+        json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants || [];
 
-      // 🔥 STEP 2: Normalize data (VERY IMPORTANT)
-      const restaurants = restaurantCards.map((item) => {
-        const info = item.card.card.info;
+      // ✅ NORMALIZATION STEP
+      const normalizedRestaurants = rawRestaurants.map((res) => {
+        const info = res.info;
 
         return {
           id: info.id,
@@ -44,12 +38,12 @@ const Body = () => {
           costForTwo: info.costForTwo,
           deliveryTime: info.sla?.slaString,
           imageId: info.cloudinaryImageId,
-          promoted: info.promoted,
+          promoted: info.avgRating > 4.5, // 👈 fake logic for learning
         };
       });
 
-      setListOfRestaurants(restaurants);
-      setFilteredRestaurants(restaurants);
+      setListOfRestaurants(normalizedRestaurants);
+      setFilteredRestaurants(normalizedRestaurants);
     } catch (error) {
       console.error("Failed to fetch data:", error);
     }
@@ -116,20 +110,17 @@ const Body = () => {
       <div className="flex flex-wrap">
         {filteredRestaurants.map((restaurant) => (
           <Link key={restaurant.id} to={"/restaurants/" + restaurant.id}>
-
             {/* if the restaurant is promoted then add a promoted label to it */}
-            {
-              restaurant.promoted ? <RestaurantCardPromoted resData={restaurant}/> : <RestaurantCard resData={restaurant} />
-            }
-           
-            
+            {restaurant.promoted ? (
+              <RestaurantCardPromoted resData={restaurant} />
+            ) : (
+              <RestaurantCard resData={restaurant} />
+            )}
           </Link>
         ))}
       </div>
     </div>
   );
 };
-
-
 
 export default Body;

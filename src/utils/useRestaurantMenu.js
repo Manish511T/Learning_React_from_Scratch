@@ -1,36 +1,48 @@
 import { useEffect, useState } from "react";
 
 const useRestaurantMenu = (resId) => {
-    // fetchdata
+  const [resInfo, setResInfo] = useState(null);
+  const [menuItems, setMenuItems] = useState([]);
 
-    const [resInfo, setResInfo] = useState(null);
+  useEffect(() => {
+    fetchData();
+  }, [resId]); 
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `https://namastedev.com/api/v1/listRestaurantMenu/${resId}`
+      );
 
-    const fetchData = async () => {
-        const data = await fetch(
-            "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.5456897&lng=77.3882686&collection=83639&tags=layout_CCS_Biryani&sortBy=&filters=&type=rcv2&offset=0&page_type=null",
-        );
+      const json = await response.json();
 
-        const json = await data.json();
+      // ✅ 1. Extract restaurant info
+      const restaurantInfo =
+        json?.data?.cards?.find(
+          (c) => c?.card?.card?.info
+        )?.card?.card?.info;
 
-        const restaurants =
-            json?.data?.cards?.filter(
-                (c) =>
-                    c?.card?.card?.["@type"] ===
-                    "type.googleapis.com/swiggy.presentation.food.v2.Restaurant",
-            ) || [];
+      setResInfo(restaurantInfo || null);
 
-        const selectedRestaurant = restaurants.find(
-            (r) => r?.card?.card?.info?.id === resId,
-        );
+      // ✅ 2. Extract menu categories
+      const regularCards =
+        json?.data?.cards
+          ?.find((c) => c?.groupedCard)
+          ?.groupedCard?.cardGroupMap?.REGULAR?.cards || [];
 
-        setResInfo(selectedRestaurant?.card?.card?.info || null);
-    };
+      const categories = regularCards.filter(
+        (c) =>
+          c?.card?.card?.["@type"] ===
+          "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+      );
 
-    return resInfo;
+      setMenuItems(categories);
+    } catch (err) {
+      console.error("Menu fetch failed", err);
+    }
+  };
+
+  return { resInfo, menuItems };
 };
 
 export default useRestaurantMenu;
