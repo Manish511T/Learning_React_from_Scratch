@@ -10,6 +10,7 @@ const RestaurantCard = ({ resData }) => {
     costForTwo,
     deliveryTime,
     imageId,
+    
   } = resData;
   // console.log("IMAGE ID 👉", imageId);
 
@@ -30,5 +31,25 @@ const RestaurantCard = ({ resData }) => {
     </div>
   );
 };
+
+
+
+//Higher Order Component
+// Input -  RestaurantCard => RestaurantCArdPromoted
+
+export const withPromotedLabel = (RestaurantCard)=>{
+  return(props)=>{
+    return (
+      <div className="relative">
+        <label className="absolute bg-yellow-300 text-black/80  px-2 py-1 rounded-md">
+          Promoted
+        </label>
+        <RestaurantCard {...props} />
+      </div>
+    )
+  }
+}
+
+
 
 export default RestaurantCard;

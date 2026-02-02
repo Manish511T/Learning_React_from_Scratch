@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, {withPromotedLabel} from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
@@ -8,18 +8,22 @@ const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
+  
+  const RestaurantCardPromoted = withPromotedLabel(RestaurantCard)
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  
 
   const fetchData = async () => {
     try {
       const response = await fetch(
         "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.5456897&lng=77.3882686&collection=83639&tags=layout_CCS_Biryani&sortBy=&filters=&type=rcv2&offset=0&page_type=null",
       );
-
       const json = await response.json();
+     
 
       // 🔥 STEP 1: Extract only restaurant cards
       const restaurantCards = json?.data?.cards?.filter(
@@ -40,6 +44,7 @@ const Body = () => {
           costForTwo: info.costForTwo,
           deliveryTime: info.sla?.slaString,
           imageId: info.cloudinaryImageId,
+          promoted: info.promoted,
         };
       });
 
@@ -60,6 +65,8 @@ const Body = () => {
       </h1>
     );
   }
+
+  console.log(filteredRestaurants);
 
   // ternary oprator
   return listOfRestaurants.length === 0 ? (
@@ -109,12 +116,20 @@ const Body = () => {
       <div className="flex flex-wrap">
         {filteredRestaurants.map((restaurant) => (
           <Link key={restaurant.id} to={"/restaurants/" + restaurant.id}>
-            <RestaurantCard resData={restaurant} />
+
+            {/* if the restaurant is promoted then add a promoted label to it */}
+            {
+              restaurant.promoted ? <RestaurantCardPromoted resData={restaurant}/> : <RestaurantCard resData={restaurant} />
+            }
+           
+            
           </Link>
         ))}
       </div>
     </div>
   );
 };
+
+
 
 export default Body;
