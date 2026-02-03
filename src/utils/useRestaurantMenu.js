@@ -15,6 +15,7 @@ const useRestaurantMenu = (resId) => {
       );
 
       const json = await response.json();
+      console.log(json)
 
       // ✅ 1. Extract restaurant info
       const restaurantInfo =
@@ -37,6 +38,7 @@ const useRestaurantMenu = (resId) => {
       );
 
       setMenuItems(categories);
+      console.log(menuItems)
     } catch (err) {
       console.error("Menu fetch failed", err);
     }
