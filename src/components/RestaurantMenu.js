@@ -2,6 +2,8 @@ import { useState } from "react";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import { useDispatch } from "react-redux";
+import { addItem } from "../utils/cartSlice";
 
 const CDN_URL =
   "https://media-assets.swiggy.com/swiggy/image/upload/f_auto,q_auto,w_508,h_320,c_fill/";
@@ -9,12 +11,17 @@ const CDN_URL =
 const RestaurantMenu = () => {
   const { resId } = useParams();
   const { resInfo, menuItems } = useRestaurantMenu(resId);
-
   const [showIndex, setShowIndex] = useState(null);
+  const dispatch = useDispatch();
 
   if (!resInfo) return <Shimmer />;
-
   const { name, cuisines, costForTwo, locality, areaName } = resInfo;
+
+
+  const handleAddItem = (item) => {
+    dispatch(addItem(item));
+  };
+
 
   return (
     <div className="menu p-4 max-w-3xl mx-auto">
@@ -62,6 +69,7 @@ const RestaurantMenu = () => {
                     <div className="w-3/12 p-4 relative">
                       {/* Add Button */}
                       <button
+                        onClick={()=>handleAddItem(item)}
                         className="absolute bottom-2 left-1/2 -translate-x-1/2 
                      bg-yellow-400 px-4 py-1 rounded-lg shadow-lg font-semibold"
                       >
