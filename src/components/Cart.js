@@ -8,6 +8,9 @@ const Cart = () => {
 
   const cartItems = useSelector((store) => store.cart.items);
 
+//   const store = useSelector((store)=>store);  <--- It will always update whole store 
+//   const cartItems = store.cart.items;   <--- This is less efficient
+
   const handleAddItem = (item) => {
     dispatch(addItem(item));
   };
