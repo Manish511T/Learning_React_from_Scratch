@@ -30,7 +30,7 @@ describe("Contact us page Test cases", () => {
     render(<Contact />);
 
     const inputBoxes = screen.getAllByRole("textbox");
-    console.log(inputBoxes);
+    // console.log(inputBoxes);
     expect(inputBoxes.length).toBe(2);
   });
 });
